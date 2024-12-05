@@ -9,7 +9,7 @@ from datetime import datetime
 # Fungsi untuk memuat data pengguna dari file .pkl di folder 'user_data'
 def load_user_data():
     user_encodings = {}  # Dictionary untuk menyimpan encoding wajah pengguna
-    for user_file in os.listdir('user_data'):  # Iterasi semua file di folder 'user_data'
+    for user_file in os.listdir('user_data'):  # setiap file di folder 'user_data'
         with open(os.path.join('user_data', user_file), 'rb') as f:
             encoding = pickle.load(f)  # Membaca encoding dari file
             username = os.path.splitext(user_file)[0]  # Mendapatkan nama pengguna dari nama file
@@ -61,7 +61,6 @@ if captured_image is not None:
         for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
             # Gambarkan kotak hijau di sekitar wajah
             cv2.rectangle(img_rgb, (left, top), (right, bottom), (0, 255, 0), 2)
-            
             # Mencoba mencocokkan wajah dengan data pengguna
             username = login(face_encoding, user_encodings)
             if username:
@@ -71,13 +70,10 @@ if captured_image is not None:
                 
                 # Menambahkan nama pengguna di atas kotak hijau
                 cv2.putText(img_rgb, username, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-                # Menampilkan nama pengguna di kotak input Streamlit
-                name_box.text_input("Nama Pengguna:", value=username, disabled=True)
             else:
                 # Jika wajah tidak cocok, menampilkan pesan error
                 st.error("Wajah tidak dikenali. Silakan coba lagi.")
                 cv2.putText(img_rgb, "Tidak Dikenal", (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
-                name_box.text_input("Nama Pengguna:", value="Tidak Dikenal", disabled=True)
         
         # menampilkan gambar dengan kotak hijau dan teks nama pengguna
         st.image(img_rgb, channels="RGB")
