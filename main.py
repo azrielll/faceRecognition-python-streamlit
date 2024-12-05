@@ -25,7 +25,7 @@ register_page = st.Page(
 
 # Data Page
 data_page = st.Page(
-    page = "pages/data.py",
+    page = "pages/database.py",
     title = "Database",
     icon = "📅",
 )
